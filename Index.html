@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rizawan ai | Premium Downloader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #0a0a0a; color: #fff; font-family: 'Segoe UI', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .btn-grad { background: linear-gradient(45deg, #6366f1, #a855f7); transition: 0.3s; }
+        .btn-grad:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4); }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="glass w-full max-w-lg p-8 rounded-3xl shadow-2xl text-center">
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">Rizawan ai</h1>
+            <p class="text-gray-500 text-sm mt-1">Premium Media Downloader</p>
+        </div>
+
+        <input type="text" id="url" placeholder="Paste YouTube link here..." 
+               class="w-full p-4 mb-4 rounded-xl bg-white/5 border border-white/10 focus:outline-none focus:border-indigo-500 transition-all">
+        
+        <div class="grid grid-cols-2 gap-4">
+            <button onclick="download('video')" class="btn-grad p-4 rounded-xl font-semibold flex items-center justify-center gap-2">
+                <i class="fas fa-video"></i> Video
+            </button>
+            <button onclick="download('audio')" class="btn-grad p-4 rounded-xl font-semibold flex items-center justify-center gap-2">
+                <i class="fas fa-music"></i> Audio
+            </button>
+        </div>
+        
+        <p id="status" class="mt-6 text-xs text-gray-400 italic">Ready to process...</p>
+    </div>
+
+    <script>
+        function download(type) {
+            const url = document.getElementById('url').value;
+            const status = document.getElementById('status');
+            if(!url.includes('youtu')) {
+                status.innerText = "Please enter a valid YouTube link!";
+                return;
+            }
+            status.innerText = "Processing your request, please wait...";
+            
+            // Cobalt API integration
+            const apiUrl = 'https://api.cobalt.tools/api/json';
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    url: url,
+                    vQuality: '720',
+                    isAudioOnly: type === 'audio'
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.url) {
+                    window.open(data.url, '_blank');
+                    status.innerText = "Download started!";
+                } else {
+                    status.innerText = "Error: Could not fetch link.";
+                }
+            })
+            .catch(() => status.innerText = "System error, try again.");
+        }
+    </script>
+</body>
+</html>
