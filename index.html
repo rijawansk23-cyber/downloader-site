@@ -1,78 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rizawan ai | Premium Downloader</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body { background: #0a0a0a; color: #fff; font-family: 'Inter', sans-serif; }
-        .glass { 
-            background: rgba(255, 255, 255, 0.05); 
-            backdrop-filter: blur(15px); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 24px;
-        }
-        .btn-grad { 
-            background: linear-gradient(135deg, #4f46e5, #9333ea); 
-            transition: 0.3s; 
-        }
-        .btn-grad:hover { transform: scale(1.02); }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rizawan ai</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+body{
+background:
+radial-gradient(circle at top left,#1e293b,#020617 50%),
+radial-gradient(circle at bottom right,#312e81,#020617 60%);
+min-height:100vh;
+}
+
+.glass{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+border:1px solid rgba(255,255,255,0.1);
+}
+
+.glow{
+box-shadow:
+0 0 20px rgba(99,102,241,.25),
+0 0 40px rgba(99,102,241,.15);
+}
+</style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
 
-    <div class="glass w-full max-w-md p-8 shadow-2xl text-center">
-        <div class="mb-8">
-            <h1 class="text-3xl font-extrabold text-white">Rizawan ai</h1>
-            <p class="text-indigo-400 text-sm font-medium tracking-wider uppercase mt-1">Professional Media Downloader</p>
-        </div>
+<body class="text-white flex items-center justify-center p-5">
 
-        <div class="relative mb-6">
-            <i class="fa-solid fa-link absolute left-4 top-4 text-gray-500"></i>
-            <input type="text" id="url" placeholder="Paste YouTube link..." 
-                   class="w-full pl-12 pr-4 py-4 rounded-xl bg-black/40 border border-white/10 focus:outline-none focus:border-indigo-500 text-sm">
-        </div>
-        
-        <div class="grid grid-cols-2 gap-4">
-            <button onclick="download('video')" class="btn-grad p-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg">
-                <i class="fa-solid fa-download"></i> Video
-            </button>
-            <button onclick="download('audio')" class="btn-grad p-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg">
-                <i class="fa-solid fa-music"></i> Audio
-            </button>
-        </div>
-        
-        <div id="status" class="mt-8 text-xs text-gray-500">Ready for high-speed download</div>
-    </div>
+<div class="w-full max-w-2xl">
 
-    <script>
-        function download(type) {
-            const url = document.getElementById('url').value;
-            const status = document.getElementById('status');
-            if(!url.includes('youtu')) {
-                status.innerText = "⚠️ Please enter a valid YouTube link!";
-                return;
-            }
-            status.innerText = "🚀 Processing request...";
-            
-            fetch('https://api.cobalt.tools/api/json', {
-                method: 'POST',
-                headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-                body: JSON.stringify({ url: url, isAudioOnly: type === 'audio' })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(data.url) {
-                    window.open(data.url, '_blank');
-                    status.innerText = "✅ Download starting now!";
-                } else {
-                    status.innerText = "❌ System busy, try again.";
-                }
-            })
-            .catch(() => status.innerText = "❌ Error connecting to server.");
-        }
-    </script>
+<div class="glass glow rounded-3xl p-8 md:p-10">
+
+<div class="text-center mb-8">
+<div class="text-5xl mb-4">
+<i class="fas fa-robot"></i>
+</div>
+
+<h1 class="text-4xl font-bold">
+Rizawan ai
+</h1>
+
+<p class="text-gray-300 mt-3">
+Premium Media Downloader Interface
+</p>
+</div>
+
+<div class="space-y-4">
+
+<div class="relative">
+<i class="fas fa-link absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+
+<input
+id="urlInput"
+type="url"
+placeholder="Paste media URL here..."
+class="w-full pl-12 pr-4 py-4 rounded-xl bg-white/10 border border-white/10 outline-none focus:ring-2 focus:ring-indigo-500">
+</div>
+
+<div class="grid grid-cols-2 gap-4">
+
+<button
+id="videoBtn"
+class="bg-indigo-600 hover:bg-indigo-700 py-4 rounded-xl font-semibold transition">
+<i class="fas fa-video mr-2"></i>
+Video
+</button>
+
+<button
+id="audioBtn"
+class="bg-purple-600 hover:bg-purple-700 py-4 rounded-xl font-semibold transition">
+<i class="fas fa-music mr-2"></i>
+Audio
+</button>
+
+</div>
+
+<div class="flex gap-3">
+
+<button
+id="copyBtn"
+class="flex-1 bg-white/10 hover:bg-white/20 py-3 rounded-xl transition">
+<i class="fas fa-copy mr-2"></i>
+Copy
+</button>
+
+<button
+id="clearBtn"
+class="flex-1 bg-white/10 hover:bg-white/20 py-3 rounded-xl transition">
+<i class="fas fa-trash mr-2"></i>
+Clear
+</button>
+
+</div>
+
+<div
+id="loader"
+class="hidden text-center py-4">
+
+<i class="fas fa-spinner fa-spin text-2xl"></i>
+
+<p class="mt-2 text-gray-300">
+Processing...
+</p>
+
+</div>
+
+<div
+id="result"
+class="hidden mt-6 glass rounded-2xl p-5">
+
+<h3 class="font-semibold mb-2">
+Result
+</h3>
+
+<p id="resultText" class="text-gray-300"></p>
+
+<a
+id="downloadLink"
+href="#"
+target="_blank"
+class="hidden inline-block mt-4 bg-green-600 hover:bg-green-700 px-5 py-3 rounded-xl">
+Download
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+const input=document.getElementById("urlInput");
+const loader=document.getElementById("loader");
+const result=document.getElementById("result");
+const resultText=document.getElementById("resultText");
+const downloadLink=document.getElementById("downloadLink");
+
+function showMessage(message){
+result.classList.remove("hidden");
+resultText.textContent=message;
+downloadLink.classList.add("hidden");
+}
+
+document.getElementById("copyBtn").onclick=()=>{
+navigator.clipboard.writeText(input.value);
+showMessage("URL copied.");
+};
+
+document.getElementById("clearBtn").onclick=()=>{
+input.value="";
+result.classList.add("hidden");
+};
+
+document.getElementById("videoBtn").onclick=()=>{
+showMessage("Connect your authorized backend/API here for video processing.");
+};
+
+document.getElementById("audioBtn").onclick=()=>{
+showMessage("Connect your authorized backend/API here for audio processing.");
+};
+
+input.addEventListener("keypress",e=>{
+if(e.key==="Enter"){
+document.getElementById("videoBtn").click();
+}
+});
+</script>
+
 </body>
 </html>
